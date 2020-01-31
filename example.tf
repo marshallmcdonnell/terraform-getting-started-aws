@@ -1,10 +1,10 @@
 provider "aws" {
-    region  = "${var.region}"
+    region  = var.region
     profile = "default"
 }
 
 resource "aws_instance" "example" {
-    ami = "${var.amis[var.region]}"
+    ami = var.amis[var.region]
     instance_type = "t2.micro"
 
     provisioner "local-exec" {
@@ -14,9 +14,9 @@ resource "aws_instance" "example" {
 
 resource "aws_eip" "ip" {
     vpc = true
-    instance = "${aws_instance.example.id}"
+    instance = aws_instance.example.id
 }
 
 output "ip" {
-    value = "${aws_eip.ip.public_ip}"
+    value = aws_eip.ip.public_ip
 }
